@@ -45,28 +45,33 @@ import (
 )
 
 var (
-	useValgrind        = flag.Bool("valgrind", false, "If true, run code under valgrind")
-	useGDB             = flag.Bool("gdb", false, "If true, run BoringSSL code under gdb")
-	useLLDB            = flag.Bool("lldb", false, "If true, run BoringSSL code under lldb")
-	flagDebug          = flag.Bool("debug", false, "Hexdump the contents of the connection")
-	mallocTest         = flag.Int64("malloc-test", -1, "If non-negative, run each test with each malloc in turn failing from the given number onwards.")
-	mallocTestDebug    = flag.Bool("malloc-test-debug", false, "If true, ask bssl_shim to abort rather than fail a malloc. This can be used with a specific value for --malloc-test to identity the malloc failing that is causing problems.")
-	jsonOutput         = flag.String("json-output", "", "The file to output JSON results to.")
-	pipe               = flag.Bool("pipe", false, "If true, print status output suitable for piping into another program.")
-	testToRun          = flag.String("test", "", "The pattern to filter tests to run, or empty to run all tests")
-	numWorkers         = flag.Int("num-workers", runtime.NumCPU(), "The number of workers to run in parallel.")
-	shimPath           = flag.String("shim-path", "../../../build/ssl/test/bssl_shim", "The location of the shim binary.")
-	handshakerPath     = flag.String("handshaker-path", "../../../build/ssl/test/handshaker", "The location of the handshaker binary.")
-	resourceDir        = flag.String("resource-dir", ".", "The directory in which to find certificate and key files.")
-	fuzzer             = flag.Bool("fuzzer", false, "If true, tests against a BoringSSL built in fuzzer mode.")
-	transcriptDir      = flag.String("transcript-dir", "", "The directory in which to write transcripts.")
-	idleTimeout        = flag.Duration("idle-timeout", 15*time.Second, "The number of seconds to wait for a read or write to bssl_shim.")
-	deterministic      = flag.Bool("deterministic", false, "If true, uses a deterministic PRNG in the runner.")
-	allowUnimplemented = flag.Bool("allow-unimplemented", false, "If true, report pass even if some tests are unimplemented.")
-	looseErrors        = flag.Bool("loose-errors", false, "If true, allow shims to report an untranslated error code.")
-	shimConfigFile     = flag.String("shim-config", "", "A config file to use to configure the tests for this shim.")
-	includeDisabled    = flag.Bool("include-disabled", false, "If true, also runs disabled tests.")
-	repeatUntilFailure = flag.Bool("repeat-until-failure", false, "If true, the first selected test will be run repeatedly until failure.")
+	pFalse             bool
+	pInt64             int64
+	pEmpty             string
+	pIdleTimeout       time.Duration = 15 * time.Second
+	pNumCPU                          = runtime.NumCPU()
+	useValgrind                      = &pFalse
+	useGDB                           = &pFalse
+	useLLDB                          = &pFalse
+	flagDebug                        = &pFalse
+	mallocTest                       = &pInt64
+	mallocTestDebug                  = &pFalse
+	jsonOutput                       = &pEmpty
+	pipe                             = &pFalse
+	testToRun                        = &pEmpty
+	numWorkers                       = &pNumCPU
+	shimPath                         = &pEmpty
+	handshakerPath                   = &pEmpty
+	resourceDir                      = &pEmpty
+	fuzzer                           = &pFalse
+	transcriptDir                    = &pEmpty
+	idleTimeout                      = &pIdleTimeout
+	deterministic                    = &pFalse
+	allowUnimplemented               = &pFalse
+	looseErrors                      = &pFalse
+	shimConfigFile                   = &pEmpty
+	includeDisabled                  = &pFalse
+	repeatUntilFailure               = &pFalse
 )
 
 // ShimConfigurations is used with the “json” package and represents a shim
