@@ -24,7 +24,7 @@ import (
 	"io"
 	"strconv"
 
-	"boringssl.googlesource.com/boringssl/ssl/test/runner/ed25519/internal/edwards25519"
+	"github.com/MeABc/bogo/ed25519/internal/edwards25519"
 )
 
 const (

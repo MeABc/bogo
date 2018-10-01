@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package runner
+package bogo
 
 import (
 	"bytes"
@@ -19,7 +19,7 @@ import (
 	"net"
 	"time"
 
-	"boringssl.googlesource.com/boringssl/ssl/test/runner/ed25519"
+	"github.com/MeABc/bogo/ed25519"
 )
 
 type clientHandshakeState struct {
